@@ -31,7 +31,9 @@ jobs:
         with:
           format: YYYYMMDD-HH
           utcOffset: "+01:00"
+      - name: Zip artifact for deployment
+        run: zip StandaloneLinux64.zip ./build/StandaloneLinux64/* -r
       - uses: ncipollo/release-action@v1
         with:
           tag: "${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}"
-          artifacts: "build/StandaloneLinux64"
+          artifacts: "StandaloneLinux64.zip"
