@@ -1,0 +1,26 @@
+name: Build project
+
+on: [push, pull_request]
+
+jobs:
+  buildSimulator:
+    name: Build application
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v2
+        with:
+          path: Library
+          key: Library-StandaloneLinux64
+          restore-keys: Library-
+      - uses: game-ci/unity-builder@v2
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: StandaloneLinux64
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Build-StandaloneLinux64
+          path: build/StandaloneLinux64
