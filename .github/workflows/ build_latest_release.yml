@@ -33,5 +33,5 @@ jobs:
           utcOffset: "+01:00"
       - uses: ncipollo/release-action@v1
         with:
-          tag: "${{ steps.current-time.outputs.formattedTime }}"
+          tag: "${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}"
           artifacts: "build/StandaloneLinux64"
