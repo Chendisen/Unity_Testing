@@ -35,5 +35,3 @@ jobs:
         with:
           tag: "${{ steps.current-time.outputs.formattedTime }}"
           artifacts: "Build-StandaloneLinux64"
-          bodyFile: "build/StandaloneLinux64"
-
