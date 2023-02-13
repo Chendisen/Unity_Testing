@@ -6,6 +6,8 @@ jobs:
   buildSimulator:
     name: Build application
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v3
       - uses: actions/cache@v2
@@ -24,3 +26,7 @@ jobs:
         with:
           name: Build-StandaloneLinux64
           path: build/StandaloneLinux64
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "Build-StandaloneLinux64"
+          bodyFile: "build/StandaloneLinux64"
