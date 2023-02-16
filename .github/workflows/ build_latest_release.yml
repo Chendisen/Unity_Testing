@@ -40,8 +40,8 @@ jobs:
       - name: Change name of built directory and files to AscendSimulator
         run: mkdir ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}; 
               sudo mv ./build/StandaloneLinux64/* ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}};
-              sudo cd ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}};
-              sudo mv StandaloneLinux64_Data/ AscendSimulator_Data; sudo rm StandaloneLinux64_BurstDebugInformation_DoNotShip/ -r
+              sudo mv ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}/StandaloneLinux64_Data/ ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}/AscendSimulator_Data; 
+              sudo rm ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}/StandaloneLinux64_BurstDebugInformation_DoNotShip/ -r
       - name: Upload built artefacts
         uses: actions/upload-artifact@v2
         with:
