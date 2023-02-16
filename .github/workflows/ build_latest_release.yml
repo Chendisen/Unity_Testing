@@ -21,7 +21,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: Library
-          key: Library-StandaloneLinux64
+          key: Library-StandaloneLinux
           restore-keys: Library-
       - name: Build the project
         uses: game-ci/unity-builder@v2
@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Build-StandaloneLinux64
-          path: AscendSimulator
+          path: build/StandaloneLinux64
       - name: Get current time for tag
         uses: josStorer/get-current-time@v2
         id: current-time
@@ -43,7 +43,7 @@ jobs:
           format: YYYYMMDD-HH
           utcOffset: "+01:00"
       - name: Zip artifact for deployment
-        run: zip autobuild${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}.zip ./AscendSimulator/* -r
+        run: zip autobuild${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}.zip ./build/StandaloneLinux64/* -r
       - name: Create latest release
         uses: ncipollo/release-action@v1
         with:
