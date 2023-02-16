@@ -10,7 +10,7 @@ jobs:
       contents: write
     steps:
       - name: Install blender
-        run: snap install blender --classic
+        run: sudo snap install blender --classic
       - name: Checkout github repo (+ download lfs dependencies)
         uses: actions/checkout@v3
         with:
