@@ -31,19 +31,24 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: StandaloneLinux64
-      - name: Upload built artefacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: Build-StandaloneLinux64
-          path: build/StandaloneLinux64
       - name: Get current time for tag
         uses: josStorer/get-current-time@v2
         id: current-time
         with:
           format: YYYYMMDD-HH
           utcOffset: "+01:00"
+      - name: Change name of built directory and files to AscendSimulator
+        run: mkdir ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}; 
+              mv StandaloneLinux64/build/StandaloneLinux64/* ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}};
+              cd ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}};
+              mv StandaloneLinux64_Data/ AscendSimulator_Data; rm StandaloneLinux64_BurstDebugInformation_DoNotShip/ -r
+      - name: Upload built artefacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Build-StandaloneLinux64
+          path: ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}
       - name: Zip artifact for deployment
-        run: zip autobuild${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}.zip ./build/StandaloneLinux64/* -r
+        run: zip autobuild${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}.zip ./${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}/* -r
       - name: Create latest release
         uses: ncipollo/release-action@v1
         with:
