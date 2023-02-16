@@ -16,8 +16,7 @@ jobs:
         with:
           lfs: true
       - name: Checkout LFS objects
-        run: git lfs install
-        run: git lfs pull
+        run: git lfs install; git lfs pull
       - name: Cache library files from previous builds
         uses: actions/cache@v2
         with:
