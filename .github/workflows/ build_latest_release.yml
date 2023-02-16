@@ -41,7 +41,7 @@ jobs:
         run: mkdir ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}; 
               sudo mv ./build/StandaloneLinux64/* ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}};
               sudo mv ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}/StandaloneLinux64_Data/ ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}/AscendSimulator_Data; 
-              sudo mv ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}/StandaloneLinux64/ ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}/AscendSimulator; 
+              sudo mv ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}/StandaloneLinux64 ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}/AscendSimulator; 
               sudo rm ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}/StandaloneLinux64_BurstDebugInformation_DoNotShip/ -r
       - name: Upload built artefacts
         uses: actions/upload-artifact@v2
