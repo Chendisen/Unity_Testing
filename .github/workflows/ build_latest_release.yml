@@ -9,11 +9,14 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Install blender
+        run: snap install blender --classic
       - name: Checkout github repo (+ download lfs dependencies)
         uses: actions/checkout@v3
         with:
           lfs: true
       - name: Checkout LFS objects
+        run: git lfs install
         run: git lfs pull
       - name: Cache library files from previous builds
         uses: actions/cache@v2
@@ -33,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Build-StandaloneLinux64
-          path: build/StandaloneLinux64
+          path: AscendSimulator
       - name: Get current time for tag
         uses: josStorer/get-current-time@v2
         id: current-time
@@ -41,9 +44,9 @@ jobs:
           format: YYYYMMDD-HH
           utcOffset: "+01:00"
       - name: Zip artifact for deployment
-        run: zip StandaloneLinux64.zip ./build/StandaloneLinux64/* -r
+        run: zip autobuild${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}.zip ./AscendSimulator/* -r
       - name: Create latest release
         uses: ncipollo/release-action@v1
         with:
           tag: "${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}"
-          artifacts: "StandaloneLinux64.zip"
+          artifacts: "autobuild${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}.zip"
