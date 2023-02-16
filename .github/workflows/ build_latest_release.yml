@@ -9,31 +9,41 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/cache@v2
+      - name: Checkout github repo (+ download lfs dependencies)
+        uses: actions/checkout@v3
+        with:
+          lfs: true
+      - name: Checkout LFS objects
+        run: git lfs pull
+      - name: Cache library files from previous builds
+        uses: actions/cache@v2
         with:
           path: Library
           key: Library-StandaloneLinux64
           restore-keys: Library-
-      - uses: game-ci/unity-builder@v2
+      - name: Build the project
+        uses: game-ci/unity-builder@v2
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: StandaloneLinux64
-      - uses: actions/upload-artifact@v2
+      - name: Upload built artefacts
+        uses: actions/upload-artifact@v2
         with:
           name: Build-StandaloneLinux64
           path: build/StandaloneLinux64
-      - uses: josStorer/get-current-time@v2
+      - name: Get current time for tag
+        uses: josStorer/get-current-time@v2
         id: current-time
         with:
           format: YYYYMMDD-HH
           utcOffset: "+01:00"
       - name: Zip artifact for deployment
         run: zip StandaloneLinux64.zip ./build/StandaloneLinux64/* -r
-      - uses: ncipollo/release-action@v1
+      - name: Create latest release
+        uses: ncipollo/release-action@v1
         with:
           tag: "${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}"
           artifacts: "StandaloneLinux64.zip"
