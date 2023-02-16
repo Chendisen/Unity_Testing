@@ -31,6 +31,11 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: StandaloneLinux64
+      - name: Generate release tag
+        id: generate_release_tag
+        uses: amitsingh-007/next-release-tag@v1.0.0
+        with:
+          tag_prefix: ''
       - name: Get current time for tag
         uses: josStorer/get-current-time@v2
         id: current-time
@@ -53,5 +58,5 @@ jobs:
       - name: Create latest release
         uses: ncipollo/release-action@v1
         with:
-          tag: "${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}"
+          tag: "${{ steps.generate_release_tag.outputs.release_tag }}"
           artifacts: "autobuild${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}.zip"
