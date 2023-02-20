@@ -23,6 +23,12 @@ jobs:
           path: Library
           key: Library-StandaloneLinux
           restore-keys: Library-
+      - name: Generate release tag
+        id: generate_release_tag
+        uses: amitsingh-007/next-release-tag@v1.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tag_prefix: ''
       - name: Build the project
         uses: game-ci/unity-builder@v2
         env:
@@ -31,12 +37,6 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: StandaloneLinux64
-      - name: Generate release tag
-        id: generate_release_tag
-        uses: amitsingh-007/next-release-tag@v1.0.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          tag_prefix: ''
       - name: Change name of built directory and files to AscendSimulator
         run: mkdir ${{ env.release_tag }}; 
               sudo mv ./build/StandaloneLinux64/* ${{ env.release_tag }};
