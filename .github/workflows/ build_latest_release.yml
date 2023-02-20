@@ -44,21 +44,21 @@ jobs:
           format: YYYYMMDD-HH
           utcOffset: "+01:00"
       - name: Change name of built directory and files to AscendSimulator
-        run: mkdir ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}; 
-              sudo mv ./build/StandaloneLinux64/* ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}};
-              sudo mv ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}/StandaloneLinux64_Data/ ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}/AscendSimulator_Data; 
-              sudo mv ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}/StandaloneLinux64 ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}/AscendSimulator; 
-              sudo rm ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}/StandaloneLinux64_BurstDebugInformation_DoNotShip/ -r
+        run: mkdir ${{ env.release_tag }}; 
+              sudo mv ./build/StandaloneLinux64/* ${{ env.release_tag }};
+              sudo mv ${{ env.release_tag }}/StandaloneLinux64_Data/ ${{ env.release_tag }}/AscendSimulator_Data; 
+              sudo mv ${{ env.release_tag }}/StandaloneLinux64 ${{ env.release_tag }}/AscendSimulator; 
+              sudo rm ${{ env.release_tag }}/StandaloneLinux64_BurstDebugInformation_DoNotShip/ -r
       - name: Upload built artefacts
         uses: actions/upload-artifact@v2
         with:
           name: Build-StandaloneLinux64
-          path: ${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}
+          path: ${{ env.release_tag }}
       - name: Zip artifact for deployment
-        run: zip autobuild${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}.zip ./${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}/* -r
+        run: zip autobuild${{ env.release_tag }}.zip ./${{ env.release_tag }}/* -r
       - name: Create latest release
         uses: ncipollo/release-action@v1
         with:
-          tag: "${{ env.release_tag }}PlisWork"
-          artifacts: "autobuild${{ steps.current-time.outputs.formattedTime }}${{steps.current-time.outputs.minute}}.zip"
-          
+          tag: "${{ env.release_tag }}"
+          artifacts: "autobuild${{ env.release_tag }}.zip"
+
