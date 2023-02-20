@@ -13,8 +13,6 @@ jobs:
         run: sudo snap install blender --classic
       - name: Checkout github repo (+ download lfs dependencies)
         uses: actions/checkout@v3
-        with:
-          lfs: true
       - name: Install Git LFS
         run: git lfs install
       - name: Pull the lfs objects
