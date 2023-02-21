@@ -47,7 +47,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: StandaloneLinux64
-          unityVersion: 2021.3.18f1  # -m linux
+          # unityVersion: 2021.3.18f1  -m linux
       - name: Change name of built directory and files to AscendSimulator
         run: mkdir ${{ env.release_tag }}; 
               sudo mv ./build/StandaloneLinux64/* ${{ env.release_tag }};
@@ -66,4 +66,3 @@ jobs:
         with:
           tag: "${{ env.release_tag }}"
           artifacts: "autobuild${{ env.release_tag }}.zip"
-          
