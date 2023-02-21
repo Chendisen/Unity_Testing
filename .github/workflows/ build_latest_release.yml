@@ -17,15 +17,16 @@ jobs:
         run: git lfs install
       - name: Pull the lfs objects
         run: git lfs pull
-      - name: Download Linux Build Support Module for Unity
-        run: wget https://download.unity3d.com/download_unity/3129e69bc0c7/LinuxEditorTargetInstaller/UnitySetup-Linux-IL2CPP-Support-for-Editor-2021.3.18f1.tar.xz?_ga=2.90739994.1217471959.1676996261-959760623.1676908686;
-              ls;
-              tar -xf UnitySetup-Linux-IL2CPP-Support-for-Editor-2021.3.18f1.tar.xz?_ga=2.90739994.1217471959.1676996261-959760623.1676908686;
-              mkdir Unity;
-              mkdir Unity/Hub;
-              mkdir Unity/Hub/Editor;
-              mkdir Unity/Hub/Editor/2021.3.18f1;
-              sudo mv Editor Unity/Hub/Editor/2021.3.18f1;      
+      # - name: Download Linux Build Support Module for Unity
+      #   run: wget https://download.unity3d.com/download_unity/3129e69bc0c7/LinuxEditorTargetInstaller/UnitySetup-Linux-IL2CPP-Support-for-Editor-2021.3.18f1.tar.xz?_ga=2.90739994.1217471959.1676996261-959760623.1676908686;
+      #         ls;
+      #         tar -xf UnitySetup-Linux-IL2CPP-Support-for-Editor-2021.3.18f1.tar.xz?_ga=2.90739994.1217471959.1676996261-959760623.1676908686;
+      #         sudo rm UnitySetup-Linux-IL2CPP-Support-for-Editor-2021.3.18f1.tar.xz?_ga=2.90739994.1217471959.1676996261-959760623.1676908686;
+      #         mkdir Unity;
+      #         mkdir Unity/Hub;
+      #         mkdir Unity/Hub/Editor;
+      #         mkdir Unity/Hub/Editor/2021.3.18f1;
+      #         sudo mv Editor Unity/Hub/Editor/2021.3.18f1;      
       - name: Cache library files from previous builds
         uses: actions/cache@v2
         with:
@@ -46,6 +47,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: StandaloneLinux64
+          unityVersion: 2021.3.18f1 -m linux
       - name: Change name of built directory and files to AscendSimulator
         run: mkdir ${{ env.release_tag }}; 
               sudo mv ./build/StandaloneLinux64/* ${{ env.release_tag }};
