@@ -28,7 +28,15 @@ jobs:
         uses: amitsingh-007/next-release-tag@v1.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          tag_prefix: ''
+          tag_prefix: 'Autobuild'
+      - name: Download Linux Build Support Module for Unity
+        run: wget https://download.unity3d.com/download_unity/3129e69bc0c7/LinuxEditorTargetInstaller/UnitySetup-Linux-IL2CPP-Support-for-Editor-2021.3.18f1.tar.xz?_ga=2.90739994.1217471959.1676996261-959760623.1676908686;
+              tar -xf UnitySetup-Linux-IL2CPP-Support-for-Editor-2021.3.18f1.tar.tar;
+              mkdir Unity;
+              mkdir Unity/Hub;
+              mkdir Unity/Hub/Editor;
+              mkdir Unity/Hub/Editor/2021.3.18f1;
+              sudo mv Editor Unity/Hub/Editor/2021.3.18f1;
       - name: Build the project
         uses: game-ci/unity-builder@v2
         env:
